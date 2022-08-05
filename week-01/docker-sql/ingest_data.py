@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -19,7 +18,7 @@ def main(params):
     url = params.url
     filename = 'output.parquet'
     
-    os.system(f"wget {url} -O {filename}")
+    os.system(f"wget {url} -O {filename} --no-check-certificate")
 
     engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
     

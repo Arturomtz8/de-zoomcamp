@@ -11,7 +11,7 @@ def main():
     engine = create_engine(f'postgresql://root:root@localhost:5431/ny_taxi')
     
     df = pd.read_csv("/Users/arturomartinez/Desktop/taxi_zone_lookup.csv", low_memory=False)
-    df.to_sql(name="zones", con=engine, if_exists='append', chunksize=100000, index=False)
+    df.to_sql(name="taxi_zones", con=engine, if_exists='append', chunksize=100000, index=False)
 
 
 if __name__ == '__main__':
