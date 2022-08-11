@@ -1,0 +1,47 @@
+[2022-08-11 18:55:25,191] {taskinstance.py:1032} INFO - Dependencies all met for <TaskInstance: LocalIngestionDag.ingest scheduled__2022-05-02T06:00:00+00:00 [queued]>
+[2022-08-11 18:55:25,232] {taskinstance.py:1032} INFO - Dependencies all met for <TaskInstance: LocalIngestionDag.ingest scheduled__2022-05-02T06:00:00+00:00 [queued]>
+[2022-08-11 18:55:25,234] {taskinstance.py:1238} INFO - 
+--------------------------------------------------------------------------------
+[2022-08-11 18:55:25,235] {taskinstance.py:1239} INFO - Starting attempt 2 of 2
+[2022-08-11 18:55:25,236] {taskinstance.py:1240} INFO - 
+--------------------------------------------------------------------------------
+[2022-08-11 18:55:25,276] {taskinstance.py:1259} INFO - Executing <Task(PythonOperator): ingest> on 2022-05-02 06:00:00+00:00
+[2022-08-11 18:55:25,288] {standard_task_runner.py:52} INFO - Started process 2872 to run task
+[2022-08-11 18:55:25,296] {standard_task_runner.py:76} INFO - Running: ['***', 'tasks', 'run', 'LocalIngestionDag', 'ingest', 'scheduled__2022-05-02T06:00:00+00:00', '--job-id', '73', '--raw', '--subdir', 'DAGS_FOLDER/data_ingestion_local.py', '--cfg-path', '/tmp/tmp2f6o5lkl', '--error-file', '/tmp/tmpg55m49_l']
+[2022-08-11 18:55:25,299] {standard_task_runner.py:77} INFO - Job 73: Subtask ingest
+[2022-08-11 18:55:25,455] {logging_mixin.py:109} INFO - Running <TaskInstance: LocalIngestionDag.ingest scheduled__2022-05-02T06:00:00+00:00 [running]> on host 3b421e1efda7
+[2022-08-11 18:55:25,627] {logging_mixin.py:109} WARNING - /home/***/.local/lib/python3.7/site-packages/***/utils/context.py:152 AirflowContextDeprecationWarning: Accessing 'execution_date' from the template is deprecated and will be removed in a future version. Please use 'data_interval_start' or 'logical_date' instead.
+[2022-08-11 18:55:25,699] {taskinstance.py:1426} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=LocalIngestionDag
+AIRFLOW_CTX_TASK_ID=ingest
+AIRFLOW_CTX_EXECUTION_DATE=2022-05-02T06:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2022-05-02T06:00:00+00:00
+[2022-08-11 18:55:25,705] {logging_mixin.py:109} INFO - yellow_taxi_2021_05 /opt/***/output_2021-05.csv
+[2022-08-11 18:55:25,731] {logging_mixin.py:109} INFO - connection established successfully, inserting data...
+[2022-08-11 18:56:31,015] {logging_mixin.py:109} INFO - inserted the first chunk, took 65.277 second
+[2022-08-11 18:57:40,283] {logging_mixin.py:109} INFO - inserted another chunk, took 69.256 second
+[2022-08-11 18:58:45,932] {logging_mixin.py:109} INFO - inserted another chunk, took 65.638 second
+[2022-08-11 18:59:50,099] {logging_mixin.py:109} INFO - inserted another chunk, took 64.152 second
+[2022-08-11 19:00:57,339] {logging_mixin.py:109} INFO - inserted another chunk, took 67.220 second
+[2022-08-11 19:02:04,090] {logging_mixin.py:109} INFO - inserted another chunk, took 66.735 second
+[2022-08-11 19:03:10,692] {logging_mixin.py:109} INFO - inserted another chunk, took 66.587 second
+[2022-08-11 19:04:21,379] {logging_mixin.py:109} INFO - inserted another chunk, took 70.672 second
+[2022-08-11 19:05:28,919] {logging_mixin.py:109} INFO - inserted another chunk, took 67.522 second
+[2022-08-11 19:06:34,960] {logging_mixin.py:109} INFO - inserted another chunk, took 66.030 second
+[2022-08-11 19:07:40,961] {logging_mixin.py:109} INFO - inserted another chunk, took 65.987 second
+[2022-08-11 19:08:45,047] {logging_mixin.py:109} INFO - inserted another chunk, took 64.077 second
+[2022-08-11 19:09:49,412] {logging_mixin.py:109} INFO - inserted another chunk, took 64.354 second
+[2022-08-11 19:10:53,603] {logging_mixin.py:109} INFO - inserted another chunk, took 64.172 second
+[2022-08-11 19:11:57,802] {logging_mixin.py:109} INFO - inserted another chunk, took 64.189 second
+[2022-08-11 19:13:00,464] {logging_mixin.py:109} INFO - inserted another chunk, took 62.649 second
+[2022-08-11 19:14:04,000] {logging_mixin.py:109} INFO - inserted another chunk, took 63.526 second
+[2022-08-11 19:15:07,227] {logging_mixin.py:109} INFO - inserted another chunk, took 63.216 second
+[2022-08-11 19:16:11,311] {logging_mixin.py:109} INFO - inserted another chunk, took 64.074 second
+[2022-08-11 19:17:15,638] {logging_mixin.py:109} INFO - inserted another chunk, took 64.311 second
+[2022-08-11 19:18:26,004] {logging_mixin.py:109} INFO - inserted another chunk, took 70.353 second
+[2022-08-11 19:19:42,704] {logging_mixin.py:109} INFO - inserted another chunk, took 76.681 second
+[2022-08-11 19:20:04,268] {local_task_job.py:82} ERROR - Received SIGTERM. Terminating subprocesses
+[2022-08-11 19:20:05,558] {process_utils.py:124} INFO - Sending Signals.SIGTERM to group 2872. PIDs of all processes in the group: [2872]
+[2022-08-11 19:20:05,977] {process_utils.py:75} INFO - Sending the signal Signals.SIGTERM to group 2872
+[2022-08-11 19:20:06,392] {taskinstance.py:1408} ERROR - Received SIGTERM. Terminating subprocesses.
