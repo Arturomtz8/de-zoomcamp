@@ -417,3 +417,17 @@ SyntaxError: EOL while scanning string literal
 [2022-08-11 21:24:23,997] {logging_mixin.py:109} INFO - [2022-08-11 21:24:23,996] {dag.py:2396} INFO - Sync 1 DAGs
 [2022-08-11 21:24:24,050] {logging_mixin.py:109} INFO - [2022-08-11 21:24:24,050] {dag.py:2935} INFO - Setting next_dagrun for data_ingestion_gcs_dag to 2022-08-11T00:00:00+00:00
 [2022-08-11 21:24:24,071] {processor.py:171} INFO - Processing /opt/airflow/dags/data_gpc.py took 2.929 seconds
+[2022-08-11 21:24:54,769] {processor.py:163} INFO - Started process (PID=2187) to work on /opt/airflow/dags/data_gpc.py
+[2022-08-11 21:24:54,774] {processor.py:642} INFO - Processing file /opt/airflow/dags/data_gpc.py for tasks to queue
+[2022-08-11 21:24:54,777] {logging_mixin.py:109} INFO - [2022-08-11 21:24:54,776] {dagbag.py:500} INFO - Filling up the DagBag from /opt/airflow/dags/data_gpc.py
+[2022-08-11 21:24:58,007] {processor.py:654} INFO - DAG(s) dict_keys(['data_ingestion_gcs_dag']) retrieved from /opt/airflow/dags/data_gpc.py
+[2022-08-11 21:24:58,050] {logging_mixin.py:109} INFO - [2022-08-11 21:24:58,049] {dag.py:2396} INFO - Sync 1 DAGs
+[2022-08-11 21:24:58,119] {logging_mixin.py:109} INFO - [2022-08-11 21:24:58,119] {dag.py:2935} INFO - Setting next_dagrun for data_ingestion_gcs_dag to 2022-08-11T00:00:00+00:00
+[2022-08-11 21:24:58,145] {processor.py:171} INFO - Processing /opt/airflow/dags/data_gpc.py took 3.385 seconds
+[2022-08-11 21:25:09,473] {processor.py:163} INFO - Started process (PID=2213) to work on /opt/airflow/dags/data_gpc.py
+[2022-08-11 21:25:09,481] {processor.py:642} INFO - Processing file /opt/airflow/dags/data_gpc.py for tasks to queue
+[2022-08-11 21:25:09,485] {logging_mixin.py:109} INFO - [2022-08-11 21:25:09,484] {dagbag.py:500} INFO - Filling up the DagBag from /opt/airflow/dags/data_gpc.py
+[2022-08-11 21:25:13,165] {processor.py:654} INFO - DAG(s) dict_keys(['data_ingestion_gcs_dag']) retrieved from /opt/airflow/dags/data_gpc.py
+[2022-08-11 21:25:13,204] {logging_mixin.py:109} INFO - [2022-08-11 21:25:13,203] {dag.py:2396} INFO - Sync 1 DAGs
+[2022-08-11 21:25:13,262] {logging_mixin.py:109} INFO - [2022-08-11 21:25:13,261] {dag.py:2935} INFO - Setting next_dagrun for data_ingestion_gcs_dag to 2022-08-11T00:00:00+00:00
+[2022-08-11 21:25:13,291] {processor.py:171} INFO - Processing /opt/airflow/dags/data_gpc.py took 3.826 seconds

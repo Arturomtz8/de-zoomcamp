@@ -6,8 +6,6 @@ from airflow.utils.dates import days_ago
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 
-from datetime import datetime
-
 from google.cloud import storage
 
 from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateExternalTableOperator
