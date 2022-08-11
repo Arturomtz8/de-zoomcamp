@@ -60,7 +60,7 @@ x-airflow-common:
     AIRFLOW_CONN_GOOGLE_CLOUD_DEFAULT: 'google-cloud-platform://?extra__google_cloud_platform__key_path=/.google/credentials/google_credentials.json'
     GCP_PROJECT_ID: 'de-zoomcamp-355322'
     GCP_GCS_BUCKET: 'dtc_data_lake_de-zoomcamp-355322'
-    
+
     PG_HOST: "${PG_HOST}"
     PG_USER: "${PG_USER}"
     PG_PASSWORD: "${PG_PASSWORD}"
@@ -69,7 +69,8 @@ x-airflow-common:
 
 
   volumes:
-    - ./dags:/opt/airflow/dags
+    # - ./dags:/opt/airflow/dags
+    - ./dags_gpc:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
     - ~/.google/credentials/:/.google/credentials:ro
