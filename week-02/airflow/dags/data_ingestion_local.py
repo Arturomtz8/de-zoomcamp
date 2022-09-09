@@ -24,7 +24,7 @@ OUTPUT_FILE_TEMPLATE_DECOMPRESSED = AIRFLOW_HOME + '/output_2021-{{ execution_da
 local_workflow = DAG(
     "LocalIngestionDag",
     schedule_interval = "0 6 2 * *",
-    start_date=datetime(2021, 1, 1)
+    start_date=datetime(2019, 1, 1)
 )
 
 with local_workflow:

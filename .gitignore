@@ -5,3 +5,5 @@ week-01/docker-sql/ny_taxi_postgres_data/base/16384/1640
 week-01/docker-sql/ny_taxi_postgres_data/base/16384/1639
 /oop_*
 .env
+__pycache__
+logs
