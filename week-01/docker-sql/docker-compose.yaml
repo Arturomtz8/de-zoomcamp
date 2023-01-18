@@ -5,26 +5,26 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=ny_taxi
-    # volumes:
-    #   - "./ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
+    volumes:
+      - ./ny_taxi_postgres_data:/var/lib/postgresql/data:rw
     ports:
-      - "5431:5432"
+      - "5433:5432"
 
 #CONNECTING TO NETWORK OF ANOTHER DOCKER COMPOSE
-    networks:
-      - airflow
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-  #     - PGADMIN_DEFAULT_PASSWORD=root
-  #   ports:
-  #     - "8080:80"
-  #   # volumes:
-    #   - ./data_pgadmin:/var/lib/pgadmin
+    # networks:
+    #   - airflow
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=hi@hi.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8083:80"
+    volumes:
+      - ./data_pgadmin:/var/lib/pgadmin
 
 # FOR CONNECTING INTO DOCKER-COMPOSE OF AIRFLOW
-networks:
-  airflow:
-    external:
-      name: airflow_default
+# networks:
+#   airflow:
+#     external:
+#       name: airflow_default
