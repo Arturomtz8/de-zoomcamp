@@ -3,7 +3,7 @@
 
 import argparse
 import os
-import pyarrow.parquet as pq
+# import pyarrow.parquet as pq
 import pandas as pd
 from sqlalchemy import create_engine
 import gzip
@@ -17,19 +17,26 @@ def main(params):
     db = params.db
     table_name = params.table_name
     url = params.url
-    filename = "green_tripdata_2019-01.csv.gz"
+    filename_gz = "green_tripdata_2019-01.csv.gz"
+    filename_csv = "taxi_zone_lookup.csv"
     
     # parquet_table = pq.read_table(filename)
     # df = parquet_table.to_pandas()
-  
-    os.system(f"wget {url} -O {filename} --no-check-certificate")
-    with gzip.open(filename, 'rb') as f:
-        file_content = f.read()
-        engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
-        # df = pd.read_csv(file_content)
-        df = pd.read_csv(io.StringIO(file_content.decode("utf-8")))
+    if url.endswith(".gz"):
+        os.system(f"wget {url} -O {filename_gz} --no-check-certificate")
+        with gzip.open(filename_gz, 'rb') as f:
+            file_content = f.read()
+            engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
+            # df = pd.read_csv(file_content)
+            df = pd.read_csv(io.StringIO(file_content.decode("utf-8")))
 
-        df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=100000)
+            df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=100000)
+    else:
+        os.system(f"wget {url} -O {filename_csv} --no-check-certificate")
+        engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
+        df_csv = pd.read_csv(filename_csv)
+        df_csv.to_sql(name=table_name, con=engine, if_exists='replace', chunksize=100000)
+
 
 
 if __name__ == '__main__':

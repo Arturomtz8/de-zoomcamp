@@ -5,11 +5,13 @@ description = ""
 authors = ["Arturomtz8 <arturo.mtz8@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.11"
 pyarrow = "^8.0.0"
 pandas = "^1.4.3"
 SQLAlchemy = "^1.4.38"
 psycopg2-binary = "^2.9.3"
+google-cloud-bigquery = "^3.3.3"
+
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
