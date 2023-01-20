@@ -6,11 +6,17 @@ authors = ["Arturomtz8 <arturo.mtz8@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"
-pyarrow = "^8.0.0"
-pandas = "^1.4.3"
-SQLAlchemy = "^1.4.38"
-psycopg2-binary = "^2.9.3"
+pyarrow = "10.0.1"
+pandas = "1.5.2"
+SQLAlchemy = "1.4.46"
+psycopg2-binary = "2.9.5"
 google-cloud-bigquery = "^3.3.3"
+prefect = "2.7.7"
+prefect-sqlalchemy = "0.2.2"
+prefect-gcp = {version = "0.2.4", extras = ["cloud_storage"]}
+protobuf = "4.21.11"
+pandas-gbq = "0.18.1"
+greenlet = "^2.0.1"
 
 
 [tool.poetry.dev-dependencies]
