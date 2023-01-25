@@ -144,4 +144,6 @@ data_pgadmin/
 .ipynb_*/
 upload_to_postgres*
 airflow*
-terraform-info
+*.tfstate*
+*.tfplan
+.terraform*
