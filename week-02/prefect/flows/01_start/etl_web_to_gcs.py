@@ -19,17 +19,18 @@ def fetch(dataset_url: str) -> pd.DataFrame:
 def clean(df=pd.DataFrame) -> pd.DataFrame:
     """Fix dtype issues"""
     df["tpep_pickup_datetime"] = pd.to_datetime(df["tpep_pickup_datetime"])
-    df["tpep_pickup_datetime"] = pd.to_datetime(df["tpep_pickup_datetime"])
+    df["tpep_dropoff_datetime"] = pd.to_datetime(df["tpep_dropoff_datetime"])
     print(df.head(2))
     print(f"columns: {df.dtypes}")
     print(f"rows: {len(df)}")
     return df
 
 
-@task()
+@task(log_prints=True)
 def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
     """Write DataFrame out locally as parquet file"""
     path = Path(f"data/{color}/{dataset_file}.parquet")
+    path.parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(path, compression="gzip")
     return path
 
@@ -37,7 +38,7 @@ def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
 @task()
 def write_gcs(path: Path) -> None:
     """Upload local parquet file to GCS"""
-    gcs_block = GcsBucket.load("zoom-gcs")
+    gcs_block = GcsBucket.load("bucket-zoomcamp")
     gcs_block.upload_from_path(from_path=path, to_path=path)
     return
 
