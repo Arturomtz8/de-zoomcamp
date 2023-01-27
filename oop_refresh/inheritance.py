@@ -7,6 +7,7 @@ class Employee:
     def work(self):
         print(f"{self.name} is working")
 
+
 class SoftwareEngineer(Employee):
     def __init__(self, name, age, salary, level):
         super().__init__(name, age, salary)
@@ -16,10 +17,8 @@ class SoftwareEngineer(Employee):
         print(f"{self.name} is coding")
 
 
-    
-
 class Designer(Employee):
-     def work(self):
+    def work(self):
         print(f"{self.name} is designing")
 
 

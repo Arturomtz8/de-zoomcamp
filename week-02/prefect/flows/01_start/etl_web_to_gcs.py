@@ -1,8 +1,9 @@
 from pathlib import Path
+from random import randint
+
 import pandas as pd
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
-from random import randint
 
 
 @task(retries=3)

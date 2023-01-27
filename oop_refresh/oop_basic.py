@@ -1,7 +1,7 @@
-class SoftwareEngineer():
+class SoftwareEngineer:
     # class attributes
     alias = "keyboard magician"
-         
+
     # instance or object attributes
     def __init__(self, name, age, level, salary):
         self.name = name
@@ -29,7 +29,6 @@ class SoftwareEngineer():
         if age < 30:
             return 4000
         return 7000
-
 
 
 se1 = SoftwareEngineer("Pedro", 28, "junior", 3400)

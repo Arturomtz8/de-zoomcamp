@@ -7,7 +7,7 @@ class Employee:
         __ private attribute and it cannot be accessed
         """
         self._salary = None
-        self._gender = None 
+        self._gender = None
 
     @property
     def salary(self):
@@ -21,9 +21,9 @@ class Employee:
     def salary(self):
         del self._salary
 
+
 e1 = Employee("pedro", 23)
 e1.salary = 30000
 print(e1.salary)
 del e1.salary
 print(e1.salary)
-

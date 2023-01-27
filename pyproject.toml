@@ -17,10 +17,16 @@ prefect-gcp = {version = "0.2.4", extras = ["cloud_storage"]}
 protobuf = "4.21.11"
 pandas-gbq = "0.18.1"
 greenlet = "^2.0.1"
+nltk = "^3.8.1"
+praw = "^7.6.1"
+wordcloud = "^1.8.2"
+seaborn = "^0.12.2"
 
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+black = "^22.12.0"
+isort = "^5.11.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
