@@ -2,7 +2,7 @@
 from pathlib import Path
 from typing import List
 
-import nltk
+import io
 import pandas as pd
 import praw
 import pyarrow
@@ -10,27 +10,23 @@ from prefect import flow, task
 from prefect.blocks.system import Secret
 from prefect_gcp.cloud_storage import GcsBucket
 
-# todo manage concatening two dfs: read from gcs, and concat
-
 
 @task(log_prints=True)
-def get_posts_id() -> List[str]:
-    path = Path(f"../data/ghost_stories/posts_ghosts_stories.parquet")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.touch(exist_ok=True)
-    
-    try:
-        df = pd.read_parquet(path)
-        post_ids_list = df["post_id"].tolist()
-    except pyarrow.lib.ArrowInvalid:
-        return list()
+def read_from_gcs(gcs_path: str) -> pd.DataFrame:
+    gcs_block = GcsBucket.load("bucket-zoomcamp")
+    contents = gcs_block.read_path(gcs_path)
+    df = pd.read_parquet((io.BytesIO(contents)))
+    # print(df.shape)
+    # df.drop_duplicates(subset=["post_id"], keep=False, inplace=True)
+    # print(df.shape)
+    return df
 
-    return post_ids_list
 
 
 @task(tags="extract reddit posts")
-def extract_posts(subreddit_name: str, posts_id_list: List[str]) -> pd.DataFrame:
+def extract_posts(subreddit_name: str, df_from_bucket: pd.DataFrame) -> pd.DataFrame:
     all_posts_list = list()
+    post_ids_list_in_gcs = df_from_bucket["post_id"].tolist()
     REDDIT_CLIENT_ID = Secret.load("reddit-client-id")
     REDDIT_CLIENT_SECRET = Secret.load("reddit-client-secret")
     REDDIT_USER_AGENT = Secret.load("reddit-user-agent")
@@ -47,7 +43,7 @@ def extract_posts(subreddit_name: str, posts_id_list: List[str]) -> pd.DataFrame
 
     
     for submission in subreddit.hot(limit=10):
-        if str(submission.id) not in posts_id_list:
+        if str(submission.id) not in post_ids_list_in_gcs:
             print("found new posts")
             titles = submission.title
             text = submission.selftext
@@ -79,35 +75,43 @@ def extract_posts(subreddit_name: str, posts_id_list: List[str]) -> pd.DataFrame
 
 @task(log_prints=True)
 def clean_df(df: pd.DataFrame)  -> pd.DataFrame:
-    df['created_at'] = pd.to_datetime(df['created_at'],unit='s')
+    df['created_at'] = pd.to_datetime(df['created_at'], unit='s')
     return df
 
 
 @task(log_prints=True)
-def write_local(df: pd.DataFrame) -> Path:
-    path = Path(f"../data/ghost_stories/posts_ghosts_stories.parquet")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    df.to_parquet(path, compression="gzip")
-    return path
+def concat_df(new_df: pd.DataFrame, df_from_bucket: pd.DataFrame)-> pd.DataFrame:
+    concatenated_df = pd.concat([df_from_bucket, new_df])
+    return concatenated_df
 
 
 @task(log_prints=True)
-def write_gcs(path: Path) -> None:
+def write_local(df: pd.DataFrame) -> Path:
+    local_path = Path(f"../data/ghost_stories/posts_ghosts_stories.parquet")
+    local_path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_parquet(local_path, compression="gzip")
+    return local_path
+
+
+@task(log_prints=True)
+def write_to_gcs(local_path: Path, gcs_bucket_path: str) -> None:
     gcs_block = GcsBucket.load("bucket-zoomcamp")
-    # remove ../ from gcs path
-    gcs_path = str(path).split("/")[1:]
-    gcs_path = '/'.join(gcs_path)
-    gcs_block.upload_from_path(from_path=path, to_path=gcs_path)
+    gcs_block.upload_from_path(from_path=local_path, to_path=gcs_bucket_path)
+
 
 
 @flow()
 def scrape_reddit():
-    posts_id_list = get_posts_id()
-    df_raw = extract_posts("Ghoststories", posts_id_list)
-    df = clean_df(df_raw)
-    path = write_local(df)
-    write_gcs(path)
+    gcs_bucket_path = Secret.load("bucket-zoomcamp-path")
+    gcs_bucket_path= gcs_bucket_path.get()
+    df_from_bucket = read_from_gcs(gcs_bucket_path)
+    df_raw = extract_posts("Ghoststories", df_from_bucket)
+    new_df = clean_df(df_raw)
+    concatenated_df = concat_df(new_df, df_from_bucket)
+    local_path = write_local(concatenated_df)
+    write_to_gcs(local_path, gcs_bucket_path)
 
+   
 
 
 
