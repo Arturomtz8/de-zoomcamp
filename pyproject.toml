@@ -13,11 +13,12 @@ prefect-gcp = {version = "0.2.4", extras = ["cloud_storage"]}
 protobuf = "4.21.11"
 greenlet = "^2.0.1"
 praw = "^7.6.1"
+certifi = "2022.12.07"
 
 
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "7.2.0"
 black = "^22.12.0"
 isort = "^5.11.4"
 
