@@ -16,7 +16,7 @@ def read_from_gcs(gcs_path: str) -> pd.DataFrame:
     gcs_block = GcsBucket.load("bucket-zoomcamp")
     contents = gcs_block.read_path(gcs_path)
     df = pd.read_parquet((io.BytesIO(contents)))
-    # print(df.shape)
+    print(df.shape)
     # df.drop_duplicates(subset=["post_id"], keep=False, inplace=True)
     # print(df.shape)
     return df
@@ -89,6 +89,7 @@ def concat_df(new_df: pd.DataFrame, df_from_bucket: pd.DataFrame)-> pd.DataFrame
 def write_local(df: pd.DataFrame) -> Path:
     local_path = Path(f"../data/ghost_stories/posts_ghosts_stories.parquet")
     local_path.parent.mkdir(parents=True, exist_ok=True)
+    print(df.shape)
     df.to_parquet(local_path, compression="gzip")
     return local_path
 
