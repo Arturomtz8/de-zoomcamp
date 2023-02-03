@@ -8,19 +8,12 @@ authors = ["Arturomtz8 <arturo.mtz8@gmail.com>"]
 python = ">=3.9,<3.11"
 pyarrow = "10.0.1"
 pandas = "1.5.2"
-SQLAlchemy = "1.4.46"
-psycopg2-binary = "2.9.5"
-google-cloud-bigquery = "^3.3.3"
 prefect = "2.7.7"
-prefect-sqlalchemy = "0.2.2"
 prefect-gcp = {version = "0.2.4", extras = ["cloud_storage"]}
 protobuf = "4.21.11"
-pandas-gbq = "0.18.1"
 greenlet = "^2.0.1"
-nltk = "^3.8.1"
 praw = "^7.6.1"
-wordcloud = "^1.8.2"
-seaborn = "^0.12.2"
+
 
 
 [tool.poetry.dev-dependencies]

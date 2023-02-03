@@ -1,0 +1,28 @@
+FROM prefecthq/prefect:2.7.7-python3.9
+
+ENV POETRY_VERSION=1.1.14
+ENV POETRY_VENV=/opt/poetry-venv
+
+# Install poetry separated from system interpreter
+RUN python3.9 -m venv $POETRY_VENV \
+    && $POETRY_VENV/bin/pip install -U pip setuptools \
+    && $POETRY_VENV/bin/pip install poetry==${POETRY_VERSION}
+
+# Add poetry to PATH
+ENV PATH="${PATH}:${POETRY_VENV}/bin"
+
+# Copy Dependencies
+COPY poetry.lock pyproject.toml .
+
+# COPY FLOWS
+COPY flows /opt/prefect/flows
+
+# [OPTIONAL] Validate the project is properly configured
+RUN poetry check
+
+# Install Dependencies
+RUN poetry install --no-interaction
+
+
+
+
