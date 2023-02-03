@@ -3,6 +3,9 @@ from pathlib import Path
 import pandas as pd
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
+from prefect.blocks.notifications import SlackWebhook
+
+from prefect.blocks.notifications import SlackWebhook
 
 
 @task(retries=3)
@@ -15,11 +18,11 @@ def fetch(dataset_url: str) -> pd.DataFrame:
 @task(log_prints=True)
 def clean(df=pd.DataFrame) -> pd.DataFrame:
     """Fix dtype issues"""
-    df["tpep_pickup_datetime"] = pd.to_datetime(df["tpep_pickup_datetime"])
-    df["tpep_dropoff_datetime"] = pd.to_datetime(df["tpep_dropoff_datetime"])
+    df["lpep_pickup_datetime"] = pd.to_datetime(df["lpep_pickup_datetime"])
+    df["lpep_dropoff_datetime"] = pd.to_datetime(df["lpep_dropoff_datetime"])
     print(df.head(2))
     # print(f"columns: {df.dtypes}")
-    # print(f"rows: {(df.shape)}")
+    print(f"rows: {(df.shape)}")
     return df
 
 
@@ -44,8 +47,8 @@ def write_gcs(path: Path) -> None:
 def etl_web_to_gcs() -> None:
     """The main ETL function"""
     color = "green"
-    year = 2020
-    month = [11]
+    year = 2019
+    month = [4]
     for m in month:
         dataset_file = f"{color}_tripdata_{year}-{m:02}"
         dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
