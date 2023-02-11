@@ -11,20 +11,20 @@ from typing import List
 @task(retries=3)
 def extract_from_gcs(color: str, year: int, month: int) -> Path:
     """Download trip data from GCS"""
-    gcs_path = f"data/{color}/{color}_tripdata_{year}-{month:02}.parquet"
+    gcs_path = f"data/{color}/{color}_tripdata_{year}-{month:02}.csv.gz"
     gcs_block = GcsBucket.load("bucket-zoomcamp")
     gcs_block.get_directory(from_path=gcs_path, local_path=".")
     print(gcs_path)
     return Path(f"{gcs_path}")
 
 
-@task()
+@task(log_prints=True)
 def transform(path: Path) -> pd.DataFrame:
     """Data cleaning example"""
-    df = pd.read_parquet(path)
-    # print(f"pre: missing passenger count: {df['passenger_count'].isna().sum()}")
-    # df["passenger_count"].fillna(0, inplace=True)
-    # print(f"post: missing passenger count: {df['passenger_count'].isna().sum()}")
+    df = pd.read_csv(path)
+    print(df.columns.tolist())
+    df.drop(columns=["Unnamed: 0"], inplace=True)
+
     return df
 
 
@@ -34,11 +34,12 @@ def write_bq(df: pd.DataFrame) -> None:
 
     gcp_credentials = GcpCredentials.load("gcp-credentials-zoomcamp")
     google_project_id = Secret.load("google-project-id")
-    bq_table = Secret.load("big-query-table")
-    print(bq_table.get())
-
+    bq_table = "trips_data_all.fhv_data"
+    # print(google_project_id.get())
+    # secret_block = Secret.load("big-query-table")
+    # print(secret_block.get())
     df.to_gbq(
-        destination_table=f"{bq_table.get()}",
+        destination_table=bq_table,
         project_id=google_project_id.get(),
         credentials=gcp_credentials.get_credentials_from_service_account(),
         chunksize=500_000,
@@ -56,9 +57,9 @@ def etl_gcs_to_bq(year: int, month: int, color: str):
 
 @flow()
 def etl_parent_flow():
-    year = 2020
-    months = range(1, 7)
-    color: str = "yellow"
+    year = 2019
+    months = range(1, 13)
+    color: str = "fhv"
     for month in months:
         etl_gcs_to_bq(year, month, color)
 
