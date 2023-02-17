@@ -134,7 +134,7 @@ dmypy.json
 
 # Big files
 *.parquet
-*.csv
+# *.csv
 *.json
 
 

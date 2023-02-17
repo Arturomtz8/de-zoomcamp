@@ -45,16 +45,17 @@ def write_gcs(path: Path) -> None:
 def etl_web_to_gcs() -> None:
     """The main ETL function"""
     color = "yellow"
-    year = 2020
-    month = range(1, 7)
-    for m in month:
-        dataset_file = f"{color}_tripdata_{year}-{m:02}"
-        dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
+    years = [2019, 2020]
+    month = range(1, 13)
+    for year in years:
+        for m in month:
+            dataset_file = f"{color}_tripdata_{year}-{m:02}"
+            dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
 
-        df = fetch(dataset_url)
-        df_clean = clean(df)
-        path = write_local(df_clean, color, dataset_file)
-        write_gcs(path)
+            df = fetch(dataset_url)
+            df_clean = clean(df)
+            path = write_local(df_clean, color, dataset_file)
+            write_gcs(path)
 
 
 if __name__ == "__main__":

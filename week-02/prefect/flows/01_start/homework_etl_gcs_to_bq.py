@@ -29,16 +29,15 @@ def transform(path: Path) -> pd.DataFrame:
 
 
 @task(log_prints=True)
-def write_bq(df: pd.DataFrame) -> None:
+def write_bq(df: pd.DataFrame, color: str) -> None:
     """Write DataFrame to BiqQuery"""
 
     gcp_credentials = GcpCredentials.load("gcp-credentials-zoomcamp")
     google_project_id = Secret.load("google-project-id")
-    bq_table = Secret.load("big-query-table")
-    print(bq_table.get())
+    bq_table = f"trips_data_all.trips_{color}"
 
     df.to_gbq(
-        destination_table=f"{bq_table.get()}",
+        destination_table=bq_table,
         project_id=google_project_id.get(),
         credentials=gcp_credentials.get_credentials_from_service_account(),
         chunksize=500_000,
@@ -51,16 +50,17 @@ def etl_gcs_to_bq(year: int, month: int, color: str):
     """Main ETL flow to load data into Big Query"""
     path = extract_from_gcs(color, year, month)
     df = transform(path)
-    write_bq(df)
+    write_bq(df, color)
 
 
 @flow()
 def etl_parent_flow():
-    year = 2020
-    months = range(1, 7)
+    years = [2019, 2020]
+    months = range(1, 13)
     color: str = "yellow"
-    for month in months:
-        etl_gcs_to_bq(year, month, color)
+    for year in years:
+        for month in months:
+            etl_gcs_to_bq(year, month, color)
 
 
 if __name__ == "__main__":
